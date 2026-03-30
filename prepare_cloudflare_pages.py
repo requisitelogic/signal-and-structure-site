@@ -4,22 +4,24 @@ import shutil
 
 BASE = Path(__file__).resolve().parent
 SITE = BASE / 'site'
+ASSETS = BASE / 'assets'
 SITE.mkdir(parents=True, exist_ok=True)
 
-# Ensure index.html exists from home.html
-home = SITE / 'home.html'
-index = SITE / 'index.html'
-if home.exists():
-    shutil.copy2(home, index)
+# Prefer branded root landing page if present
+root_index = BASE / 'index.html'
+if root_index.exists():
+    shutil.copy2(root_index, SITE / 'index.html')
+else:
+    home = SITE / 'home.html'
+    if home.exists():
+        shutil.copy2(home, SITE / 'index.html')
 
-# Copy brand assets into site root for static deployment
 for name in ['brand-logo.png', 'brand-hero.png']:
-    src = BASE / name
+    src = ASSETS / name
     dst = SITE / name
     if src.exists():
         shutil.copy2(src, dst)
 
-# Basic redirects/helper page for convenience
 about_src = SITE / 'about.html'
 product_src = SITE / 'product-it-project-steering-committee-kit.html'
 
