@@ -2,7 +2,7 @@
 from pathlib import Path
 import shutil
 
-BASE = Path('/home/brandon/.openclaw/workspace/business/signal-and-structure')
+BASE = Path(__file__).resolve().parent
 SITE = BASE / 'site'
 SITE.mkdir(parents=True, exist_ok=True)
 
